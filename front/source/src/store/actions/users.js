@@ -49,7 +49,7 @@ export const createUser = (username, password, token) => {
             }
         };
 
-        axios.post('http://0.0.0.0:8081/api/v1/auth/register', newUser, auth).then(res => {
+        axios.post(api.URL_USERS_ADD, newUser, auth).then(res => {
             dispatch(createNewUser(username, res.data.userID));
         }).catch(err => {
             console.log(err);
@@ -72,7 +72,7 @@ export const deleteUser = (id, token) => {
             }
         };
 
-        axios.delete('http://0.0.0.0:8081/api/v1/back/users/' + id, auth).then(res => {
+        axios.delete(api.URL_USERS_DELETE + id, auth).then(res => {
             dispatch(onDeleteUser(id));
         }).catch(err => {
             console.log(err);
