@@ -1,8 +1,6 @@
 FROM golang:1.13-alpine
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh gcc libc-dev
-
+RUN apk update && apk upgrade && apk add --no-cache bash git openssh gcc libc-dev
 RUN go get -u github.com/jinzhu/gorm
 RUN go get -u github.com/gin-gonic/gin
 RUN go get -u github.com/jinzhu/gorm/dialects/postgres
