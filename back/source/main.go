@@ -96,24 +96,20 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
+	router.Use(services.GinMiddleware("*"))
 
-	router.Use(services.ReactMiddleware())
+	//router.Use(services.ReactMiddleware())
 	//router.Use(services.GinMiddleware("http://127.0.0.1:8081"))
 
 	// Initialize routes
 	initializeRoutes(router)
 
 	// Socket io
-	socketGroup := router.Group("")
-
 	server := socketio.NewServer(nil)
 	socketioRoutes(server)
 
-	socketGroup.Use(services.GinMiddleware("http://127.0.0.1:8080"))
-	{
-		socketGroup.GET("/socket.io/*any", gin.WrapH(server))
-		socketGroup.POST("/socket.io/*any", gin.WrapH(server))
-	}
+	router.GET("/socket.io/*any", gin.WrapH(server))
+	router.POST("/socket.io/*any", gin.WrapH(server))
 
 	go server.Serve()
 	defer server.Close()

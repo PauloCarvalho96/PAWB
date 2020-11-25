@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://127.0.0.1:8080/";
+const ENDPOINT = "http://172.31.0.3:8080/";
 
 function Socketio() {
   const [response, setResponse] = useState("");
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
+
     socket.on("FromAPI", data => {
       setResponse(data);
     });
