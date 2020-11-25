@@ -4,6 +4,7 @@ import (
 	"api/model"
 	"api/routes"
 	"api/services"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -77,6 +78,7 @@ func frontofficeRoutes(router *gin.Engine) {
 func socketioRoutes(server *socketio.Server) {
 	server.OnConnect("/", func(s socketio.Conn) error {
 		s.Join("global")
+		fmt.Println("/> new user ...")
 		return nil
 	})
 
@@ -95,21 +97,26 @@ func main() {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
-	//router.Use(services.ReactMiddleware())
-	router.Use(services.GinMiddleware("http://127.0.0.1:8082"))
+	router.Use(services.ReactMiddleware())
+	//router.Use(services.GinMiddleware("http://127.0.0.1:8081"))
 
 	// Initialize routes
 	initializeRoutes(router)
 
 	// Socket io
+	socketGroup := router.Group("")
+
 	server := socketio.NewServer(nil)
 	socketioRoutes(server)
+
+	socketGroup.Use(services.GinMiddleware("http://127.0.0.1:8080"))
+	{
+		socketGroup.GET("/socket.io/*any", gin.WrapH(server))
+		socketGroup.POST("/socket.io/*any", gin.WrapH(server))
+	}
 
 	go server.Serve()
 	defer server.Close()
 
-	router.GET("/socket.io/*any", gin.WrapH(server))
-	router.POST("/socket.io/*any", gin.WrapH(server))
-
-	router.Run()
+	router.Run(":8080")
 }

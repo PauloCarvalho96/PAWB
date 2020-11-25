@@ -4,7 +4,7 @@ import { Redirect } from 'react-router';
 
 import Place from './Place';
 import * as actions from '../../store/actions/index';
-
+import Socketio from "./Socketio"
 import HomeIcon from '@material-ui/icons/Home';
 import List from '@material-ui/core/List';
 import { CircularProgress } from '@material-ui/core';
@@ -12,6 +12,7 @@ import BackdropUI from '../UI/Backdrop/BackdropUI';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { useStyles } from '../Styles/Styles';
+
 
 const Places = props => {
 
@@ -67,6 +68,7 @@ const Places = props => {
                     <List>
                         {places}
                     </List>
+                    <Socketio></Socketio>
                 </div>
             </div>
         </div>

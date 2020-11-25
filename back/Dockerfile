@@ -32,7 +32,7 @@ RUN /go/bin/swag init
 # Build the Go app
 RUN go build -o main .
 
-# Expose port 8081 to the outside world
+# Expose port 8085 to the outside world
 EXPOSE 8080
 
 # Run the executable DEPLOYMENT
