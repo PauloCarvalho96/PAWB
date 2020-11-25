@@ -106,6 +106,7 @@ func socketioRoutes(server *socketio.Server) {
 
 		if placeName != "" {
 			// BROADCAST GERAL IN ROOM
+			s.Emit("update-place", people)
 			fmt.Println("socketio> new values ", placeName, " - ", people)
 		}
 	})
@@ -124,15 +125,16 @@ func socketioRoutes(server *socketio.Server) {
 	})
 
 	// Change room
-	server.OnEvent("/", "change-room", func(s socketio.Conn, data string) {
+	server.OnEvent("/", "change-place", func(s socketio.Conn, data string) {
 		socketInfo := s.Context().(*model.SocketInfo)
 		fmt.Println("socket.io> (", socketInfo.Username, ") wants to change place from:", socketInfo.Place, "to:", data)
+		services.ChangeUserToPlace(socketInfo, data)
 	})
 
 	//  User disconnected
 	server.OnDisconnect("/", func(s socketio.Conn, err string) {
-		socketInfo := s.Context().(*model.SocketInfo)
-		fmt.Println("socket.io> (", socketInfo.Username, ") disconnected! Last seen on:", socketInfo.Place)
+		//socketInfo := s.Context().(*model.SocketInfo)
+		//fmt.Println("socket.io> (", socketInfo.Username, ") disconnected! Last seen on:", socketInfo.Place)
 	})
 
 }
@@ -143,7 +145,7 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	router.Use(services.GinMiddleware("*"))
+	//router.Use(services.GinMiddleware("*"))
 
 	//router.Use(services.ReactMiddleware())
 	router.Use(services.GinMiddleware("http://localhost:3000"))

@@ -21,14 +21,9 @@ const EditUser = props => {
         setPassword(password);
     }, [username, password]);
 
-    const onSubmitHandler = (event) => {
-        event.preventDefault();
-        // update user
-    }
-
     return (
         <Container maxWidth="sm" >
-            <form onSubmit={onSubmitHandler} className={classes.authTextFileds} noValidate autoComplete="off">
+            <form onSubmit={(event) => props.updateUser(event, { id: props.user.id, username: name, password: pass, isAdmin: props.user.isAdmin, places: props.user.places })} className={classes.authTextFileds} noValidate autoComplete="off">
                 <div>
                     <TextField value={name} required id="standard-basic" label="Username" onChange={event => {
                         setUsername(event.target.value);

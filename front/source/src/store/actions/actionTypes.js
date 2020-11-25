@@ -1,5 +1,8 @@
 // places
 export const GET_ALL_PLACES = 'GET_ALL_PLACES';
+export const CREATE_PLACE = 'CREATE_PLACE';
+export const EDIT_PLACE = 'EDIT_PLACE';
+export const DELETE_PLACE = 'DELETE_PLACE';
 
 // loadingError
 export const START_REQUEST = 'START_REQUEST';

@@ -1,5 +1,9 @@
 export {
     fetchAllPlaces,
+    createPlace,
+    editPlace,
+    deletePlace,
+    fetchUserPlaces,
 } from './places';
 
 export {

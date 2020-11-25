@@ -25,9 +25,10 @@ func ParseToken(token string) *model.SocketInfo {
 
 	socketInfo := &model.SocketInfo{
 		Username: claims.Username,
-		Place:    "Norte Shopping", // ""
+		Place:    "", // ""
 	}
 
+	defer Db.Close()
 	return socketInfo
 }
 
@@ -44,6 +45,7 @@ func AddPersonToPlace(socketInfo model.SocketInfo) (string, uint) {
 	place.People = place.People + 1
 	Db.Save(&place)
 
+	defer Db.Close()
 	return place.Name, place.People
 }
 
@@ -62,11 +64,12 @@ func SubPersonFromPlace(socketInfo model.SocketInfo) (string, uint) {
 		Db.Save(&place)
 	}
 
+	defer Db.Close()
 	return place.Name, place.People
 }
 
 func ChangeUserToPlace(socketInfo *model.SocketInfo, newPlace string) {
-
+	OpenDatabase()
 	var user = &model.Users{}
 	Db.Where("username = ?", socketInfo.Username).First(&user)
 
@@ -101,6 +104,9 @@ func ChangeUserToPlace(socketInfo *model.SocketInfo, newPlace string) {
 		return
 	}
 
+	socketInfo.Place = place.Name
 	place.ActiveStaff = append(place.ActiveStaff, user)
 	Db.Save(place)
+
+	defer Db.Close()
 }

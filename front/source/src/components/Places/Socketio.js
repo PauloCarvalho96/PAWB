@@ -3,25 +3,24 @@ import socketIOClient from "socket.io-client";
 import * as api from "../../store/actions/api"
 
 function Socketio() {
+
+  const socket = socketIOClient(api.URL_SOCKETIO, {
+    withCredentials: true, transportOptions: {}
+  });
+
   const [response, setResponse] = useState("");
 
   useEffect(() => {
-
-    // Connect to socket.io
-    const socket = socketIOClient(api.URL_SOCKETIO, {
-      withCredentials: true, transportOptions: {}
-    });
-
     // After connect send token
     socket.on("connect", () => {
-      socket.emit("set-token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNBZG1pbiI6dHJ1ZSwiZXhwIjoxNjA2MzEwNzIzfQ._UZmFkEooG3ZMIvaThvX29JQPNo6gz_oEgEiNKe2Awc")
+      socket.emit("set-token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImluZXMiLCJpc0FkbWluIjpmYWxzZSwiZXhwIjoxNjA2MzI0MzAzfQ.7VubRIltC3VraNl_abE7RLyNkmv5YsPfSN-WnwMslgU")
 
-      socket.emit("add-people", "X")
+      socket.emit("add-people", "")
     })
+  }, [socket]);
 
-   
+    
 
-  }, []);
 
   return (
     <p>
