@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import * as loadingErrorActions from '../actions/index';
 import * as actionTypes from './actionTypes';
+import * as api from "./api"
 
 const getAllUsers = (users) => {
     return {
@@ -18,7 +19,7 @@ export const fetchAllUsers = (token) => {
                 Authorization: token
             }
         };
-        axios.get('http://0.0.0.0:8081/back/users', auth).then(response => {
+        axios.get(api.URL_USERS, auth).then(response => {
             dispatch(getAllUsers(response.data.data));
             dispatch(loadingErrorActions.endRequest());
         }).catch(err => {

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
+import * as api from './api'
 import * as loadingErrorActions from '../actions/index';
 
 export const authSuccess = (token, username, isAdmin) => {
@@ -36,7 +37,7 @@ export const auth = (username, password) => {
             password: password
         };
 
-        axios.post('http://127.0.0.1:8081/auth/login', authData).then(res => {
+        axios.post(api.URL_LOGIN, authData).then(res => {
             dispatch(loadingErrorActions.startRequest());
 
 
