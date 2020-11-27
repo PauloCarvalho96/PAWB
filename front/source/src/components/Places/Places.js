@@ -15,13 +15,13 @@ import InfoPlace from './InfoPlace';
 const Places = props => {
     const socket = socketIOClient(api.URL_SOCKETIO, {
         withCredentials: true, transportOptions: {}
-      });
-    
-      useEffect(() => {
+    });
+
+    useEffect(() => {
         socket.on("connect", () => {
-          socket.emit("set-token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNBZG1pbiI6dHJ1ZSwiZXhwIjoxNjA2MzI2MjE0fQ.PO7qJ9--hZFj7YP-nqoBElI7LL6UxApnAVlCp-FW6s8")
+            socket.emit("set-token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaXNBZG1pbiI6dHJ1ZSwiZXhwIjoxNjA2MzI2MjE0fQ.PO7qJ9--hZFj7YP-nqoBElI7LL6UxApnAVlCp-FW6s8")
         })
-      }, [socket]);
+    }, [socket]);
 
 
     const [selectedPlace, setSelectedPlace] = useState(null);
@@ -30,21 +30,21 @@ const Places = props => {
     const classes = useStyles();
 
     //dependecy
-    const { onGetAllPlaces } = props;
+    const { onGetAllPlaces, onGetUserPlaces } = props;
 
     useEffect(() => {
         if (props.token !== null) {
             if (props.isAdmin) {
                 onGetAllPlaces(props.token);
             } else {
-                //onGetUserPlaces(props.token)
+                onGetUserPlaces(props.token)
             }
         }
-    }, [onGetAllPlaces, props.token, props.isAdmin])
+    }, [onGetAllPlaces, onGetUserPlaces, props.token, props.isAdmin])
 
 
     useEffect(() => {
-        
+
     }, [props.places])
 
     let places = <CircularProgress />
@@ -98,7 +98,8 @@ const Places = props => {
                     </List>
 
                     {selectedPlace && places.length !== 0 ? <InfoPlace
-                        place={selectedPlace} socket={socket} 
+                        isAdmin={props.isAdmin}
+                        place={selectedPlace} socket={socket}
                         updatePlace={updatePlaceHandler}
                         deletePlace={deletePlaceHandler}
                     /> : null}

@@ -23,13 +23,6 @@ export const logout = () => {
     };
 }
 
-export const setAuthRedirectPath = (path) => {
-    return {
-        type: actionTypes.SET_AUTH_REDIRECT_PATH,
-        path: path,
-    };
-}
-
 export const auth = (username, password) => {
     return dispatch => {
         const authData = {
@@ -39,7 +32,6 @@ export const auth = (username, password) => {
 
         axios.post(api.URL_LOGIN, authData).then(res => {
             dispatch(loadingErrorActions.startRequest());
-
 
             const expirationDate = new Date(Date.parse(res.data.expirationTime));
             // 60000 -> 1min to refresh token before it expires

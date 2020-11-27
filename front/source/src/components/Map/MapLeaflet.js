@@ -39,7 +39,10 @@ const MapLeaflet = props => {
     return (
         <Container maxWidth="lg">
             {isAuth}
-            <Button onClick={opacityHandler} variant="contained" color="primary">{opacity === 1 ? 'Hide add marker' : 'Show add marker'}</Button>
+            {props.isAdmin === true ?
+                <Button onClick={opacityHandler} variant="contained" color="primary">{opacity === 1 ? 'Hide add marker' : 'Show add marker'}</Button>
+                : null
+            }
             <MapContainer style={{ height: '700px' }} center={[41.1496100, -8.6109900]} zoom={13}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

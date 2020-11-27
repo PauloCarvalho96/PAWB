@@ -12,6 +12,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 places: action.places,
             };
+        case (actionTypes.GET_USER_PLACES):
+            return {
+                ...state,
+                places: action.places,
+            };
         case (actionTypes.CREATE_PLACE):
             const newPlace = {
                 ...action.place,

@@ -17,37 +17,41 @@ const InfoPlace = props => {
     const id = props.place.ID;
     console.log(props.place)
 
-    
     socket.emit("change-place", props.place.name);
 
     socket.on("update-place", (data) => {
         console.log(data)
         setPeople(data);
-        props.places[id-1].people = data;
+        props.places[id - 1].people = data;
     });
 
 
-    function addPersonHandler(){
+    function addPersonHandler() {
         socket.emit("change-place", props.place.name);
         socket.emit("add-people", "")
     }
 
-    function subPersonHandler(){
+    function subPersonHandler() {
         socket.emit("change-place", props.place.name);
         socket.emit("sub-people", "")
     }
 
-
-    return (
-        <div style={{ padding: '10px' }}>
+    let adminInfoPlaces = (
+        <div>
             <EditPlace place={props.place} updatePlace={props.updatePlace} />
             <hr />
             <Button variant="danger" onClick={(event) => props.deletePlace(event, props.place.ID)}>Delete Place</Button>
             <hr />
+        </div>
+    );
+
+    return (
+        <div style={{ padding: '10px' }}>
+            {props.isAdmin === true ? adminInfoPlaces : null}
             <div style={{ padding: '10px' }}>
-                <button onClick={()=> addPersonHandler()}> + </button>
-                <div>{ people }</div>
-                <button onClick={()=> subPersonHandler()}> - </button>
+                <button onClick={() => addPersonHandler()}> + </button>
+                <div>{people}</div>
+                <button onClick={() => subPersonHandler()}> - </button>
             </div>
             <hr />
             <div>

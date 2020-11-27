@@ -10,11 +10,17 @@ const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case (actionTypes.AUTH_SUCCESS):
+            let isAdminVal = null;
+            if (typeof action.isAdmin === 'string') {
+                isAdminVal = (action.isAdmin === "true")
+            } else {
+                isAdminVal = action.isAdmin
+            }
             return {
                 ...state,
                 token: action.token,
                 username: action.username,
-                isAdmin: action.isAdmin
+                isAdmin: isAdminVal,
             };
         case (actionTypes.AUTH_LOGOUT):
             return {

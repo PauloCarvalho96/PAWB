@@ -3,6 +3,7 @@ export const GET_ALL_PLACES = 'GET_ALL_PLACES';
 export const CREATE_PLACE = 'CREATE_PLACE';
 export const EDIT_PLACE = 'EDIT_PLACE';
 export const DELETE_PLACE = 'DELETE_PLACE';
+export const GET_USER_PLACES = 'GET_USER_PLACES';
 
 // loadingError
 export const START_REQUEST = 'START_REQUEST';

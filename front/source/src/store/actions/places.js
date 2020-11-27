@@ -29,6 +29,13 @@ export const fetchAllPlaces = (token) => {
     }
 }
 
+const getUserPlaces = (places) => {
+    return {
+        type: actionTypes.GET_USER_PLACES,
+        places: places
+    }
+}
+
 export const fetchUserPlaces = (token) => {
     return (dispatch) => {
         const auth = {
@@ -37,7 +44,7 @@ export const fetchUserPlaces = (token) => {
             }
         };
         axios.get(api.URL_USER_PLACES, auth).then(response => {
-            // dispatch(get(response.data.data));
+            dispatch(getUserPlaces(response.data.data));
         }).catch(err => {
             console.log(err);
         });
