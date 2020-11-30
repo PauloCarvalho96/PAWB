@@ -48,7 +48,7 @@ const Users = props => {
         />
     });
 
-    let isAuth = !props.token || !props.isAdmin ? <Redirect to='/' /> : null;
+    let isAuth = !props.token || props.isAdmin === false ? <Redirect to='/' /> : null;
 
     return (
         <React.Fragment>
@@ -73,7 +73,11 @@ const Users = props => {
                             {users}
                         </tbody>
                     </Table>
-                    {selectUser ? <EditUser user={selectUser} updateUser={updateUserHandler} token={props.token} /> : null}
+                    {selectUser ? <EditUser
+                        user={selectUser}
+                        updateUser={updateUserHandler}
+                        token={props.token}
+                        allPlaces={props.places} /> : null}
                 </div>
             </div>
         </React.Fragment>
@@ -86,6 +90,8 @@ const mapStateToProps = (state) => {
         token: state.auth.token,
         isAdmin: state.auth.isAdmin,
         users: state.users.users,
+        usrPlaces: state.users.userPlaces,
+        places: state.places.places,
     };
 }
 
@@ -93,6 +99,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetAllUsers: (token) => dispatch(actions.fetchAllUsers(token)),
+        onGetUserPlacesAdmin: (id, token) => dispatch(actions.getUserPlacesByAdmin(id, token)),
         onDeleteUser: (id, token) => dispatch(actions.deleteUser(id, token)),
         onUpdateUser: (user, token) => dispatch(actions.editUser(user, token)),
     };

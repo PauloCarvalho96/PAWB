@@ -23,7 +23,7 @@ export const fetchAllUsers = (token) => {
             dispatch(getAllUsers(response.data.data));
             dispatch(loadingErrorActions.endRequest());
         }).catch(err => {
-            dispatch(loadingErrorActions.errorRequest(err.toString()));
+            console.log(err)
         });
     }
 }
@@ -100,6 +100,80 @@ export const editUser = (user, token) => {
         };
         axios.put(api.URL_USERS_EDIT + user.id, updatedUser, auth).then(res => {
             dispatch(onUpdateUser(user));
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+}
+
+const onGetUserPlacesByAdmin = (userPlaces) => {
+    return {
+        type: actionTypes.GET_USER_PLACES_ADMIN,
+        userPlaces: userPlaces,
+    }
+}
+
+export const getUserPlacesByAdmin = (id, token) => {
+    return (dispatch) => {
+        dispatch(loadingErrorActions.startRequest());
+        const auth = {
+            headers: {
+                Authorization: token,
+            }
+        };
+
+        axios.get(api.URL_USERS_PLACES_ADMIN + id, auth).then(res => {
+            dispatch(onGetUserPlacesByAdmin(res.data.data));
+            dispatch(loadingErrorActions.endRequest());
+        }).catch(err => {
+            console.log(err);
+            dispatch(loadingErrorActions.errorRequest(err.toString()));
+        });
+    }
+}
+
+//TODO
+const onAddPlaceToUserHandler = () => {
+    return {
+        type: actionTypes.ADD_PLACE_TO_USER,
+    }
+}
+
+//TODO
+export const addPlaceToUserHandler = (user, place, token) => {
+    return (dispatch) => {
+        const auth = {
+            headers: {
+                Authorization: token,
+            }
+        };
+
+        axios.post('', auth).then(res => {
+
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+}
+
+//TODO
+const onRemovePlaceToUserHandler = () => {
+    return {
+        type: actionTypes.REMOVE_PLACE_FROM_USER,
+    }
+}
+
+//TODO
+export const removePlaceToUserHandler = (user, place, token) => {
+    return (dispatch) => {
+        const auth = {
+            headers: {
+                Authorization: token,
+            }
+        };
+
+        axios.delete('', auth).then(res => {
+
         }).catch(err => {
             console.log(err);
         });

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 import * as actionTypes from './actionTypes';
-import * as actions from '../actions/index';
 import * as api from '../actions/api';
+import * as loadingErrorActions from './loadingError';
 
 
 const getAllPlaces = (places) => {
@@ -14,7 +14,7 @@ const getAllPlaces = (places) => {
 
 export const fetchAllPlaces = (token) => {
     return (dispatch) => {
-        // dispatch(loadingErrorActions.startRequest());
+        dispatch(loadingErrorActions.startRequest());
         const auth = {
             headers: {
                 Authorization: token
@@ -22,9 +22,10 @@ export const fetchAllPlaces = (token) => {
         };
         axios.get(api.URL_GET_ALL_PLACES, auth).then(response => {
             dispatch(getAllPlaces(response.data.data));
-            // dispatch(loadingErrorActions.endRequest());
+            dispatch(loadingErrorActions.endRequest());
         }).catch(err => {
-            // dispatch(actions.logout());
+            console.log(err)
+            dispatch(loadingErrorActions.errorRequest(err.toString()));
         });
     }
 }
@@ -88,7 +89,7 @@ export const deletePlace = (id, token) => {
                 Authorization: token
             }
         };
-        axios.delete('http://0.0.0.0:8081/back/places/' + id, auth).then(res => {
+        axios.delete(api.URL_PLACES_DELETE + id, auth).then(res => {
             dispatch(onDeletePlace(id));
         }).catch(err => {
             console.log(err);
@@ -110,7 +111,7 @@ export const editPlace = (place, token) => {
                 Authorization: token
             }
         };
-        axios.put('http://0.0.0.0:8081/back/places/' + place.ID, place, auth).then(res => {
+        axios.put(api.URL_PLACES_EDIT + place.ID, place, auth).then(res => {
             dispatch(updatePlace(place));
         }).catch(err => {
             console.log(err);

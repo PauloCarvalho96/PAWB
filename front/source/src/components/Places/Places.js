@@ -99,7 +99,8 @@ const Places = props => {
 
                     {selectedPlace && places.length !== 0 ? <InfoPlace
                         isAdmin={props.isAdmin}
-                        place={selectedPlace} socket={socket}
+                        place={selectedPlace}
+                        // socket={socket}
                         updatePlace={updatePlaceHandler}
                         deletePlace={deletePlaceHandler}
                     /> : null}

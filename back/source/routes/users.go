@@ -25,3 +25,7 @@ func DeleteUser(c *gin.Context) {
 func GetPlacesFromUser(c *gin.Context) {
 	controllers.GetPlacesFromUser(c)
 }
+
+func GetPlacesFromUserID(c *gin.Context) {
+	controllers.GetPlacesFromUserID(c)
+}

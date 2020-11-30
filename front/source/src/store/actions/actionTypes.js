@@ -21,4 +21,7 @@ export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const CREATE_USER = 'CREATE_USER';
 export const EDIT_USER = 'EDIT_USER';
 export const DELETE_USER = 'DELETE_USER';
+export const GET_USER_PLACES_ADMIN = 'GET_USER_PLACES_ADMIN';
+export const ADD_PLACE_TO_USER = 'ADD_PLACE_TO_USER';
+export const REMOVE_PLACE_FROM_USER = 'REMOVE_PLACE_FROM_USER';
 
