@@ -45,15 +45,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 userPlaces: action.userPlaces,
             };
-        // TODO
         case (actionTypes.ADD_PLACE_TO_USER):
             return {
                 ...state,
+                userPlaces: state.userPlaces.concat(action.place),
             };
-        // TODO
         case (actionTypes.REMOVE_PLACE_FROM_USER):
             return {
                 ...state,
+                userPlaces: state.userPlaces.filter((place) => (place.ID !== action.id)),
             };
         default:
             return state;

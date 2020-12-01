@@ -132,14 +132,13 @@ export const getUserPlacesByAdmin = (id, token) => {
     }
 }
 
-//TODO
-const onAddPlaceToUserHandler = () => {
+const onAddPlaceToUserHandler = (place) => {
     return {
         type: actionTypes.ADD_PLACE_TO_USER,
+        place: place,
     }
 }
 
-//TODO
 export const addPlaceToUserHandler = (user, place, token) => {
     return (dispatch) => {
         const auth = {
@@ -147,9 +146,12 @@ export const addPlaceToUserHandler = (user, place, token) => {
                 Authorization: token,
             }
         };
+        const userToOp = {
+            user_id: user.id,
+        }
 
-        axios.post('', auth).then(res => {
-
+        axios.post(api.URL_ADD_PLACE_TO_USER + place.ID, userToOp, auth).then(res => {
+            dispatch(onAddPlaceToUserHandler(place));
         }).catch(err => {
             console.log(err);
         });
@@ -157,23 +159,27 @@ export const addPlaceToUserHandler = (user, place, token) => {
 }
 
 //TODO
-const onRemovePlaceToUserHandler = () => {
+const onRemovePlaceToUserHandler = (id) => {
     return {
         type: actionTypes.REMOVE_PLACE_FROM_USER,
+        id: id,
     }
 }
 
-//TODO
 export const removePlaceToUserHandler = (user, place, token) => {
     return (dispatch) => {
-        const auth = {
+        const authAndData = {
             headers: {
                 Authorization: token,
+            },
+            data: {
+                user_id: user.id,
             }
         };
 
-        axios.delete('', auth).then(res => {
-
+        axios.delete(api.URL_REMOVE_PLACE_FROM_USER + place.ID, authAndData).then(res => {
+            console.log(res.data.data)
+            dispatch(onRemovePlaceToUserHandler(place.ID));
         }).catch(err => {
             console.log(err);
         });

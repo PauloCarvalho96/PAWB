@@ -68,7 +68,7 @@ func RemovePlaceFromUser(c *gin.Context) {
 	}
 
 	var alreadyExists model.Places
-	services.Db.Model(&user).Association("Places").Find(&place)
+	services.Db.Model(&user).Association("Places").Find(&alreadyExists)
 
 	if alreadyExists.ID != 0 {
 		services.Db.Model(&user).Association("Places").Delete(&place)
