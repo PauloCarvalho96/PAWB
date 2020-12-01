@@ -29,3 +29,11 @@ func GetPlacesFromUser(c *gin.Context) {
 func GetPlacesFromUserID(c *gin.Context) {
 	controllers.GetPlacesFromUserID(c)
 }
+
+func AddPlaceToUser(c *gin.Context) {
+	controllers.AddPlaceToUser(c)
+}
+
+func RemovePlaceFromUser(c *gin.Context) {
+	controllers.RemovePlaceFromUser(c)
+}
