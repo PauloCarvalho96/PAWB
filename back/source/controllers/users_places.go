@@ -3,7 +3,6 @@ package controllers
 import (
 	"api/model"
 	"api/services"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,14 +13,17 @@ func AddPlaceToUser(c *gin.Context) {
 	var place model.Places
 
 	id := c.Param("id")
-	uname, exists := c.Get("username")
+	type t struct {
+		UserID uint `json:"user_id" binding:"required"`
+	}
+	var x t
+	c.BindJSON(&x)
 
-	services.Db.Where("username = ?", uname).First(&user)
-	if exists == false {
+	services.Db.First(&user, x.UserID)
+	if user.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"status": http.StatusNotFound, "message": "User not found!"})
 		return
 	}
-
 	services.Db.First(&place, id)
 	if place.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"status": http.StatusNotFound, "message": "Place not found!"})
@@ -34,10 +36,7 @@ func AddPlaceToUser(c *gin.Context) {
 	if alreadyExists.ID == 0 {
 		services.Db.Model(&user).Association("Places").Append(&place)
 		services.Db.Save(&user)
-		fmt.Println("ADDED: ")
 	}
-
-	fmt.Println("EXISTS: ", alreadyExists.ID)
 
 	places := []model.Places{}
 	services.Db.Model(&user).Association("Places").Find(&places)
@@ -50,10 +49,14 @@ func RemovePlaceFromUser(c *gin.Context) {
 	var place model.Places
 
 	id := c.Param("id")
-	uname, exists := c.Get("username")
+	type t struct {
+		UserID uint `json:"user_id" binding:"required"`
+	}
+	var x t
+	c.BindJSON(&x)
 
-	services.Db.Where("username = ?", uname).First(&user)
-	if exists == false {
+	services.Db.First(&user, x.UserID)
+	if user.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"status": http.StatusNotFound, "message": "User not found!"})
 		return
 	}
